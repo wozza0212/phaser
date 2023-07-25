@@ -5,9 +5,13 @@ class PlayScene extends Phaser.Scene {
         super("PlayScene")
     }
 
+    get gameHeight() {
+        return this.game.config.height as number
+    }
+
     create() {
         this.add
-            .tileSprite(0, 340, 1000, 26, 'ground')
+            .tileSprite(0, this.gameHeight, 88, 26, 'ground')
             .setOrigin(0, 1)
     }
 }
