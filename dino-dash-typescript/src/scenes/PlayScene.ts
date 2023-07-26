@@ -1,13 +1,13 @@
 import Phaser from "phaser";
 import { SpriteWithDynamicBody } from "../types";
-
+import { Player } from "../entities/player";
 class PlayScene extends Phaser.Scene {
     constructor() {
         super("PlayScene")
     }
 
     startTrigger : SpriteWithDynamicBody;
-    player : SpriteWithDynamicBody;
+    player : Player;
 
     get gameHeight() {
         return this.game.config.height as number
@@ -25,8 +25,9 @@ class PlayScene extends Phaser.Scene {
     }
 
     createPlayer() {
-        this.player = this.physics.add.sprite(0, this.gameHeight, 'dino-idle')
-        .setOrigin(0, 1)
+
+
+        this.player = new Player(this, 0, this.gameHeight,)
 
         this.player
             .setGravityY(5000)
