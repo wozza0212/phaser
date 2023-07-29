@@ -32,14 +32,19 @@ class PlayScene extends Phaser.Scene {
             }
             this.startTrigger.body.reset(20000, 20000) //off screen
 
-            this.time.addEvent({
+            const rollOutEvent = this.time.addEvent({
                 delay: 1000/60,
                 loop: true, 
                 callback: () => {
-
-                    if (this.ground.width <= this.gameWidth){
+                    this.player.setVelocityX(80)
                     this.ground.width += 17;
+
+                    if (this.ground.width >= this.gameWidth){
+                        rollOutEvent.remove();
+                        this.player.setVelocityX(0)
+                        console.log('Stopping rollout')
                     }
+
                 }
             })
 
