@@ -16,9 +16,19 @@ class PlayScene extends Phaser.Scene {
     create() {
         this.createEnvironment()
         this.createPlayer()
-        this.startTrigger = this.physics.add.sprite(0, 10, null).setOrigin(0, 1).setAlpha(0)
+        this.startTrigger = this.physics.add.sprite(0, 10, null)
+            .setOrigin(0, 1)
+            .setAlpha(0)
+
         this.physics.add.overlap(this.startTrigger, this.player, () => {
-            console.log('Collision')
+            if(this.startTrigger.y === 10){
+                this.startTrigger.body.reset(0, this.gameHeight);
+                console.log('Moving upper trigger')
+                return;
+            }
+            this.startTrigger.body.reset(20000, 20000) //off screen
+            console.log('Roll out the ground and start the game!')
+
         })
 
     }
