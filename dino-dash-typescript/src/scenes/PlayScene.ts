@@ -5,12 +5,16 @@ class PlayScene extends Phaser.Scene {
     constructor() {
         super("PlayScene")
     }
-
     startTrigger : SpriteWithDynamicBody;
     player : Player;
+    ground : Phaser.GameObjects.TileSprite;
 
     get gameHeight() {
         return this.game.config.height as number
+    }
+
+    get gameWidth() {
+        return this.game.config.width as number
     }
 
     create() {
@@ -27,7 +31,17 @@ class PlayScene extends Phaser.Scene {
                 return;
             }
             this.startTrigger.body.reset(20000, 20000) //off screen
-            console.log('Roll out the ground and start the game!')
+
+            this.time.addEvent({
+                delay: 1000/60,
+                loop: true, 
+                callback: () => {
+
+                    if (this.ground.width <= this.gameWidth){
+                    this.ground.width += 17;
+                    }
+                }
+            })
 
         })
 
@@ -38,12 +52,13 @@ class PlayScene extends Phaser.Scene {
     }
 
     createEnvironment() {
-        this.add
+        this.ground = this.add
             .tileSprite(0, this.gameHeight, 88, 26, 'ground')
             .setOrigin(0, 1)
     }
 
     update(time: number, delta: number): void {
+
         
     }
 }
