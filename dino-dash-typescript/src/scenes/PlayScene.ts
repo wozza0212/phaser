@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import { SpriteWithDynamicBody } from "../types";
-import { Player } from "../entities/player";
+import { Player } from "../entities/Player";
 class PlayScene extends Phaser.Scene {
     constructor() {
         super("PlayScene")
@@ -36,6 +36,7 @@ class PlayScene extends Phaser.Scene {
                 delay: 1000/60,
                 loop: true, 
                 callback: () => {
+                    this.player.playRunAnimation();
                     this.player.setVelocityX(80)
                     this.ground.width += 17;
 
