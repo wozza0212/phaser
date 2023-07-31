@@ -37,6 +37,23 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         if(isSpaceJustDown && onFloor){
             this.setVelocityY(-1600)
         }
+
+        if(this.body.deltaAbsY() > 0) {
+            this.anims.stop();
+        } else {
+            this.playRunAnimation();
+        }
+
+        if(this.body.deltaAbsX() === 0) {
+            this.anims.stop();
+        } else {
+            this.playRunAnimation();
+        }
+
+
+        console.log(this.body.deltaAbsX());
+
+
     }
 
     playRunAnimation() {
