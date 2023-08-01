@@ -1,19 +1,21 @@
 import Phaser from "phaser";
 import { SpriteWithDynamicBody } from "../types";
 import { Player } from "../entities/Player";
-class PlayScene extends Phaser.Scene {
+import { GameScene } from './GameScene'
+class PlayScene extends GameScene {
+
+    // Playscene => Super => Gamescene => Super => Phaser.Scene
     constructor() {
         super("PlayScene")
     }
     startTrigger : SpriteWithDynamicBody;
     player : Player;
     ground : Phaser.GameObjects.TileSprite;
-    isGameRunning : boolean = false;
 
     get gameHeight() {
         return this.game.config.height as number
     }
-
+    
     get gameWidth() {
         return this.game.config.width as number
     }
