@@ -52,6 +52,10 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
             this.playRunAnimation();
         }
 
+        if((this.scene as any).isGameRunning) {
+            return;
+        }
+
 
         console.log(this.body.deltaAbsX());
 
