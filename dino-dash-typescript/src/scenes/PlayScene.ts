@@ -10,10 +10,13 @@ class PlayScene extends GameScene {
     }
     startTrigger : SpriteWithDynamicBody;
     player : Player;
+    obstacles : Phaser.Physics.Arcade.Group
     ground : Phaser.GameObjects.TileSprite;
+
 
     spawnInterval: number = 1500
     spawnTime: number = 0
+    obstacleNumber: number
 
     get gameHeight() {
         return this.game.config.height as number
@@ -26,6 +29,7 @@ class PlayScene extends GameScene {
     create() {
         this.createEnvironment()
         this.createPlayer()
+        this.obstacles = this.physics.add.group()
         this.startTrigger = this.physics.add.sprite(0, 10, null)
             .setOrigin(0, 1)
             .setAlpha(0)
@@ -60,6 +64,15 @@ class PlayScene extends GameScene {
 
     }
 
+    update(time: number, delta: number): void {
+        this.spawnTime += delta
+        if(this.spawnTime >= this.spawnInterval) {
+            this.SpawnObstacle();
+            this.spawnTime = 0
+        }
+        
+    }
+
     createPlayer() {
         this.player = new Player(this, 0, this.gameHeight)
     }
@@ -70,12 +83,15 @@ class PlayScene extends GameScene {
             .setOrigin(0, 1)
     }
 
-    update(time: number, delta: number): void {
-        this.spawnTime += delta
-        if(this.spawnTime >= this.spawnInterval) {
-            console.log('Spawn Object')
-            this.spawnTime = 0
-        }
+    SpawnObstacle() {
+
+        // Yposition = 340
+        // Xposition = randomly between 600 and 900
+        const obstacleNumber = Math.floor(Math.random() * 6) + 1
+        const distance = Phaser.Math.Between(600, 900)
+
+        this.obstacles.create(distance, this.gameHeight, `obstacle-${obstacleNumber}`)
+        .setOrigin(0, 1)
         
     }
 }
