@@ -13,7 +13,7 @@ class PlayScene extends GameScene {
     player : Player;
     obstacles : Phaser.Physics.Arcade.Group
     ground : Phaser.GameObjects.TileSprite;
-    obstacleSpeed: number = 10
+    obstacleSpeed: number = 5
 
 
     spawnInterval: number = 1500
@@ -39,7 +39,6 @@ class PlayScene extends GameScene {
         this.physics.add.overlap(this.startTrigger, this.player, () => {
             if(this.startTrigger.y === 10){
                 this.startTrigger.body.reset(0, this.gameHeight);
-                console.log('Moving upper trigger')
                 return;
             }
             this.startTrigger.body.reset(20000, 20000) //off screen
@@ -55,7 +54,6 @@ class PlayScene extends GameScene {
                     if (this.ground.width >= this.gameWidth){
                         rollOutEvent.remove();
                         this.player.setVelocityX(0)
-                        console.log('Stopping rollout')
                         this.isGameRunning = true;
                     }
 
@@ -77,6 +75,16 @@ class PlayScene extends GameScene {
         }
 
         Phaser.Actions.IncX(this.obstacles.getChildren(), -this.obstacleSpeed)
+
+        console.log(this.obstacles.getChildren().length)
+
+        this.obstacles.getChildren().forEach((obstacle: SpriteWithDynamicBody) => {
+            if (obstacle.getBounds().right < 0) {
+                this.obstacles.remove(obstacle)
+            }
+        })
+
+
         
     }
 

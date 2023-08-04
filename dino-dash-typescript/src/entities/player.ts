@@ -43,6 +43,10 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
             this.setVelocityY(-1600)
         }
 
+        if (!(this.scene as any).isGameRunning) {
+            return;
+          }
+
         if(this.body.deltaAbsY() > 0) {
             
             this.anims.stop();
@@ -51,18 +55,15 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
             this.playRunAnimation();
         }
 
-        if(this.body.deltaAbsX() === 0) {
-            this.anims.stop();
-        } else {
-            this.playRunAnimation();
-        }
+        // if(this.body.deltaAbsX() === 0) {
+        //     this.anims.stop();
+        // } else {
+        //     this.playRunAnimation();
+        // }
 
         if(!this.scene.isGameRunning) {
             return;
         }
-
-
-        console.log(this.body.deltaAbsX());
 
 
     }
