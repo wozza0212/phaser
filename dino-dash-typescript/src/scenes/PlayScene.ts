@@ -13,6 +13,7 @@ class PlayScene extends GameScene {
     player : Player;
     obstacles : Phaser.Physics.Arcade.Group
     ground : Phaser.GameObjects.TileSprite;
+    obstacleSpeed: number = 10
 
 
     spawnInterval: number = 1500
@@ -66,11 +67,16 @@ class PlayScene extends GameScene {
     }
 
     update(time: number, delta: number): void {
+        if(!this.isGameRunning){return;}
+
+
         this.spawnTime += delta
         if(this.spawnTime >= this.spawnInterval) {
             this.SpawnObstacle();
             this.spawnTime = 0
         }
+
+        Phaser.Actions.IncX(this.obstacles.getChildren(), -this.obstacleSpeed)
         
     }
 
