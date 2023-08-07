@@ -31,16 +31,24 @@ class PlayScene extends GameScene {
     create() {
         this.createEnvironment()
         this.createPlayer()
+
         this.obstacles = this.physics.add.group()
+
         this.startTrigger = this.physics.add.sprite(0, 10, null)
             .setOrigin(0, 1)
             .setAlpha(0)
+
+        this.physics.add.collider(this.player, this.obstacles, () => {
+            this.physics.pause();
+            this.isGameRunning = false;
+        });
 
         this.physics.add.overlap(this.startTrigger, this.player, () => {
             if(this.startTrigger.y === 10){
                 this.startTrigger.body.reset(0, this.gameHeight);
                 return;
             }
+
             this.startTrigger.body.reset(20000, 20000) //off screen
 
             const rollOutEvent = this.time.addEvent({
@@ -66,7 +74,6 @@ class PlayScene extends GameScene {
 
     update(time: number, delta: number): void {
         if(!this.isGameRunning){return;}
-
 
         this.spawnTime += delta
         if(this.spawnTime >= this.spawnInterval) {
@@ -106,6 +113,7 @@ class PlayScene extends GameScene {
 
         this.obstacles.create(distance, this.gameHeight, `obstacle-${obstacleNumber}`)
         .setOrigin(0, 1)
+        .setImmovable()
         
     }
 }
