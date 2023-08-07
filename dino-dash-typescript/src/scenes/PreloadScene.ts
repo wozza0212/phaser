@@ -13,8 +13,10 @@ class PreloadScene extends Phaser.Scene {
             frameWidth : 88,
             frameHeight: 94
         });
-        
-        this.load.image('dino-hurt', 'assets/dino-hurt.png')
+
+        this.load.image('dino-hurt', 'assets/dino-hurt.png');
+        this.load.image('restart', 'assets/restart.png');
+        this.load.image('game-over', 'assets/game-over.png');  
 
 
         for(let i=0; i < PRELOAD_CONFIG.cactusCount; i++) {

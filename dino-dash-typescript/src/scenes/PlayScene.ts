@@ -15,6 +15,11 @@ class PlayScene extends GameScene {
     ground : Phaser.GameObjects.TileSprite;
     gameSpeed: number = 5
 
+    gameOverText: Phaser.GameObjects.Image;
+    restartText: Phaser.GameObjects.Image;
+
+    gameOverContainer: Phaser.GameObjects.Container;
+
 
     spawnInterval: number = 1500
     spawnTime: number = 0
@@ -34,6 +39,12 @@ class PlayScene extends GameScene {
 
         this.obstacles = this.physics.add.group()
 
+        this.gameOverText = this.add.image(0, 0, 'game-over');
+        this.restartText = this.add.image(0, 60, 'restart');
+
+        this.gameOverContainer = this.add
+        .container(this.gameWidth/2, this.gameHeight/4, [this.gameOverText, this.restartText])
+
         this.startTrigger = this.physics.add.sprite(0, 10, null)
             .setOrigin(0, 1)
             .setAlpha(0)
@@ -41,7 +52,13 @@ class PlayScene extends GameScene {
         this.physics.add.collider(this.player, this.obstacles, () => {
             this.isGameRunning = false;
             this.physics.pause();
+
             this.player.die();
+
+            this.spawnTime = 0;
+            this.gameSpeed = 5;
+
+
             
         });
 
