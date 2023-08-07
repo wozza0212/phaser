@@ -44,6 +44,7 @@ class PlayScene extends GameScene {
 
         this.gameOverContainer = this.add
         .container(this.gameWidth/2, this.gameHeight/4, [this.gameOverText, this.restartText])
+        .setAlpha(0);
 
         this.startTrigger = this.physics.add.sprite(0, 10, null)
             .setOrigin(0, 1)
@@ -54,6 +55,8 @@ class PlayScene extends GameScene {
             this.physics.pause();
 
             this.player.die();
+
+            this.gameOverContainer.setAlpha(1);
 
             this.spawnTime = 0;
             this.gameSpeed = 5;
