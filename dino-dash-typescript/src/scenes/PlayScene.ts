@@ -159,13 +159,32 @@ class PlayScene extends GameScene {
 
         // Yposition = 340
         // Xposition = randomly between 600 and 900
-        const obstacleNumber = Math.floor(Math.random() * PRELOAD_CONFIG.cactusCount) + 1
+        const obstaclesCount = PRELOAD_CONFIG.cactusCount + PRELOAD_CONFIG.birdsCount;
+        const obstacleNumber = Math.floor(Math.random() 
+        * obstaclesCount) + 1;
         const distance = Phaser.Math.Between(600, 900)
+        let obstacle;
 
-        this.obstacles.create(distance, this.gameHeight, `obstacle-${obstacleNumber}`)
-        .setOrigin(0, 1)
-        .setImmovable()
-        
+        if(obstacleNumber > PRELOAD_CONFIG.cactusCount) {
+
+            const enemyPossibleHeight = [20, 70]
+            const enemyHeight = enemyPossibleHeight[Math.floor(Math.random() * 2)]
+
+            obstacle = this.obstacles
+            .create(distance, this.gameHeight - enemyHeight, `enemy-bird`)
+            
+
+
+
+        } else {
+            obstacle = this.obstacles
+            .create(distance, this.gameHeight, `obstacle-${obstacleNumber}`)
+    
+        }
+
+        obstacle 
+            .setOrigin(0, 1)
+            .setImmovable()
     }
 }
 
