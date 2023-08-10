@@ -11,7 +11,8 @@ class PlayScene extends GameScene {
     }
     startTrigger : SpriteWithDynamicBody;
     player : Player;
-    obstacles : Phaser.Physics.Arcade.Group
+    obstacles : Phaser.Physics.Arcade.Group;
+    clouds : Phaser.GameObjects.Group;
     ground : Phaser.GameObjects.TileSprite;
     gameSpeed: number = 5
 
@@ -57,12 +58,19 @@ class PlayScene extends GameScene {
         }
 
         Phaser.Actions.IncX(this.obstacles.getChildren(), -this.gameSpeed)
+        Phaser.Actions.IncX(this.clouds.getChildren(), -3)
 
         console.log(this.obstacles.getChildren().length)
 
         this.obstacles.getChildren().forEach((obstacle: SpriteWithDynamicBody) => {
             if (obstacle.getBounds().right < 0) {
                 this.obstacles.remove(obstacle)
+            }
+        })
+
+        this.clouds.getChildren().forEach((cloud: SpriteWithDynamicBody) => {
+            if (cloud.getBounds().right < 0) {
+                cloud.x = this.gameWidth + 100
             }
         })
 
@@ -77,6 +85,17 @@ class PlayScene extends GameScene {
         this.ground = this.add
             .tileSprite(0, this.gameHeight, 88, 26, 'ground')
             .setOrigin(0, 1)
+
+
+        this.clouds = this.add.group();
+
+        this.clouds = this.clouds.addMultiple([
+            this.add.image(this.gameWidth / 2, 170, 'cloud'),
+            this.add.image(this.gameWidth -80 , 80, 'cloud'),
+            this.add.image(this.gameWidth / 1.3, 100, 'cloud'), 
+        ])
+
+        this.clouds.setAlpha(0)
     }
 
     createGameOVerContainer() {
@@ -127,30 +146,34 @@ class PlayScene extends GameScene {
             .setOrigin(0, 1)
             .setAlpha(0)
 
-            this.physics.add.overlap(this.startTrigger, this.player, () => {
-                if(this.startTrigger.y === 10){
-                    this.startTrigger.body.reset(0, this.gameHeight);
-                    return;
-                }
+        this.physics.add.overlap(this.startTrigger, this.player, () => {
+            if(this.startTrigger.y === 10){
+                this.startTrigger.body.reset(0, this.gameHeight);
+                return;
+            }
+
+            this.clouds.setAlpha(1)
+
+            
     
-            this.startTrigger.body.reset(20000, 20000) //off screen
+        this.startTrigger.body.reset(20000, 20000) //off screen
 
-            const rollOutEvent = this.time.addEvent({
-                delay: 1000/60,
-                loop: true, 
-                callback: () => {
-                    this.player.playRunAnimation();
-                    this.player.setVelocityX(80)
-                    this.ground.width += 17;
+        const rollOutEvent = this.time.addEvent({
+            delay: 1000/60,
+            loop: true, 
+            callback: () => {
+                this.player.playRunAnimation();
+                this.player.setVelocityX(80)
+                this.ground.width += 17;
 
-                    if (this.ground.width >= this.gameWidth){
-                        rollOutEvent.remove();
-                        this.player.setVelocityX(0)
-                        this.isGameRunning = true;
-                    }
-
+                if (this.ground.width >= this.gameWidth){
+                    rollOutEvent.remove();
+                    this.player.setVelocityX(0)
+                    this.isGameRunning = true;
                 }
-            })
+
+            }
+        })
 
         })
 
