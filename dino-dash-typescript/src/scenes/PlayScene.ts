@@ -182,12 +182,14 @@ class PlayScene extends GameScene {
         } else {
             obstacle = this.obstacles
             .create(distance, this.gameHeight, `obstacle-${obstacleNumber}`)
+            .setScale(0.6)
     
         }
 
         obstacle 
             .setOrigin(0, 1)
             .setImmovable()
+            
     }
 
 
