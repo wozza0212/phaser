@@ -20,6 +20,9 @@ class PlayScene extends GameScene {
     restartText: Phaser.GameObjects.Image;
 
     scoreText: Phaser.GameObjects.Text;
+    score: number = 0;
+    scoreInterval: number = 100;
+    scoreDeltaTime: number = 0;
 
     gameOverContainer: Phaser.GameObjects.Container;
 
@@ -54,7 +57,14 @@ class PlayScene extends GameScene {
     update(time: number, delta: number): void {
         if(!this.isGameRunning){return;}
 
-        this.spawnTime += delta
+        this.spawnTime += delta;
+        this.scoreDeltaTime += delta;
+
+        if(this.scoreDeltaTime >= this.scoreInterval) {
+            this.score += 1;
+            this.scoreDeltaTime = 0;
+        }
+
         if(this.spawnTime >= this.spawnInterval) {
             this.SpawnObstacle();
             this.spawnTime = 0
@@ -140,6 +150,9 @@ class PlayScene extends GameScene {
 
             this.spawnTime = 0;
             this.gameSpeed = 5;
+
+            this.scoreDeltaTime = 0;
+            this.score = 0;
         });
 
     }
