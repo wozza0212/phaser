@@ -19,6 +19,8 @@ class PlayScene extends GameScene {
     gameOverText: Phaser.GameObjects.Image;
     restartText: Phaser.GameObjects.Image;
 
+    scoreText: Phaser.GameObjects.Text;
+
     gameOverContainer: Phaser.GameObjects.Container;
 
 
@@ -45,6 +47,7 @@ class PlayScene extends GameScene {
         this.handleGameStart();
         this.handleObstacleCollisions();
         this.handleGameRestart();
+        this.createScore();
 
     }
 
@@ -149,6 +152,7 @@ class PlayScene extends GameScene {
         this.physics.add.overlap(this.startTrigger, this.player, () => {
             if(this.startTrigger.y === 10){
                 this.startTrigger.body.reset(0, this.gameHeight);
+                this.scoreText.setAlpha(1);
                 return;
             }
 
@@ -178,6 +182,17 @@ class PlayScene extends GameScene {
         })
 
 
+    }
+
+    createScore() {
+        this.scoreText = this.add.text(this.gameWidth, 0, '00000', {
+            fontSize: 30,
+            fontFamily: 'Pixel',
+            color: '#535353',
+            resolution: 5
+        })
+            .setOrigin(1, 0)
+            .setAlpha(0)
     }
 
     SpawnObstacle() {
