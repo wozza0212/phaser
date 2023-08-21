@@ -15,6 +15,7 @@ class PlayScene extends GameScene {
     clouds : Phaser.GameObjects.Group;
     ground : Phaser.GameObjects.TileSprite;
     gameSpeed: number = 5
+    gameSpeedModifier: number = 1;
 
     gameOverText: Phaser.GameObjects.Image;
     restartText: Phaser.GameObjects.Image;
@@ -96,7 +97,7 @@ class PlayScene extends GameScene {
             }
         })
 
-        this.ground.tilePositionX += this.gameSpeed
+        this.ground.tilePositionX += (this.gameSpeed * this.gameSpeedModifier)
     }
 
     createPlayer() {
